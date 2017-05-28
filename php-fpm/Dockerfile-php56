@@ -1,0 +1,46 @@
+#基础镜像
+FROM centos:7
+#作者信息
+MAINTAINER 吴文付 <hi_php@163.com>
+
+RUN echo "Asia/shanghai" > /etc/timezone
+
+
+#更新源. 安装php56
+USER root
+
+
+RUN yum  install -y epel-release
+RUN rpm -ivh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+RUN yum install -y --enablerepo=remi --enablerepo=remi-php56 php php-fpm php-opcache php-devel php-mbstring \
+php-mcrypt php-mysqlnd php-pdo php-mysqli php-phpunit-PHPUnit php-pecl-xdebug php-pecl-xhprof php-gd php-redis php-memcache
+
+
+#安装nginx
+RUN yum install -y nginx
+
+
+#配置文件
+ADD conf/nginx.conf  /etc/nginx/
+ADD conf/php-fpm.conf  /etc/
+ADD conf/php.ini  /etc/
+ADD conf/www.conf /etc/php-fpm.d/
+
+ADD conf/conf.d/*  /etc/nginx/conf.d/
+ADD conf/php.d/*   /etc/php.d/
+
+USER root
+#添加启动脚本
+#ADD conf/start.sh  /
+#RUN chmod +x /start.sh
+
+#开发端口 
+EXPOSE 80 9000
+
+#配置启动脚本.todo:无法执行这个。很奇怪。
+
+WORKDIR /usr/sbin
+
+#ENTRYPOINT ["php-fpm"]
+
+CMD ["nginx"]
