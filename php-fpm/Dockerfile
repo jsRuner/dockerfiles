@@ -17,12 +17,11 @@ RUN yum install -y http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 RUN yum install -y nginx
 
 
-RUN yum install -y wget
+RUN rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
 
 
-
-RUN yum install -y php70 php70-fpm php70-opcache php70-devel php70-mbstring \
-php70-mcrypt php70-mysqlnd php70-pdo php70-mysqli php70-php70unit-PHPUnit php70-pecl-xdebug php70-pecl-xhprof php70-gd php70-redis php70-memcache
+RUN yum install -y php70w php70w-fpm php70w-opcache php70w-devel php70w-mbstring \
+php70w-mcrypt php70w-mysqlnd php70w-pdo php70w-mysqli php70w-php70wunit-PHPUnit php70w-pecl-xdebug php70w-pecl-xhprof php70w-gd php70w-redis php70w-memcache
 
 
 
