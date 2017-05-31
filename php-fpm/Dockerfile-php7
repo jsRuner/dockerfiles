@@ -8,14 +8,22 @@ RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 
 
 
-#更新源. 安装php56
+#更新源. 安装php7
 USER root
 
 
 RUN yum  install -y epel-release
-RUN rpm -ivh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
-RUN yum install -y --enablerepo=remi --enablerepo=remi-php56 php php-fpm php-opcache php-devel php-mbstring \
-php-mcrypt php-mysqlnd php-pdo php-mysqli php-phpunit-PHPUnit php-pecl-xdebug php-pecl-xhprof php-gd php-redis php-memcache
+RUN yum install -y http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+
+#安装nginx
+RUN yum install -y nginx
+
+
+RUN rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+
+
+RUN yum install -y php70w php70w-fpm php70w-opcache php70w-devel php70w-mbstring \
+php70w-mcrypt php70w-mysqlnd php70w-pdo php70w-mysqli php70w-php70wunit-PHPUnit php70w-pecl-xdebug php70w-pecl-xhprof php70w-gd php70w-redis php70w-memcache
 
 
 #安装 composer
@@ -23,18 +31,17 @@ RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer 
 
 
-#安装nginx
-RUN yum install -y nginx
 
-
+#配置文件
 #php的配置文件。
 ADD conf/php.ini  /etc/
 ADD conf/www.conf /etc/php-fpm.d/
 
-
 #nginx的配置
 ADD conf/nginx.conf  /etc/nginx/
 ADD conf/conf.d/*  /etc/nginx/conf.d/
+
+
 
 #开发端口 
 EXPOSE 80 9000

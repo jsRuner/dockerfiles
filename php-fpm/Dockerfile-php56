@@ -3,7 +3,9 @@ FROM centos:7
 #作者信息
 MAINTAINER 吴文付 <hi_php@163.com>
 
-RUN echo "Asia/shanghai" > /etc/timezone
+RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+  && echo 'Asia/Shanghai' >/etc/timezone
+
 
 
 #更新源. 安装php56
@@ -16,31 +18,25 @@ RUN yum install -y --enablerepo=remi --enablerepo=remi-php56 php php-fpm php-opc
 php-mcrypt php-mysqlnd php-pdo php-mysqli php-phpunit-PHPUnit php-pecl-xdebug php-pecl-xhprof php-gd php-redis php-memcache
 
 
+#安装 composer
+RUN curl -sS https://getcomposer.org/installer | php
+RUN mv composer.phar /usr/local/bin/composer 
+
+
 #安装nginx
 RUN yum install -y nginx
 
 
-#配置文件
-ADD conf/nginx.conf  /etc/nginx/
-ADD conf/php-fpm.conf  /etc/
+#php的配置文件。
 ADD conf/php.ini  /etc/
 ADD conf/www.conf /etc/php-fpm.d/
 
-ADD conf/conf.d/*  /etc/nginx/conf.d/
-ADD conf/php.d/*   /etc/php.d/
 
-USER root
-#添加启动脚本
-#ADD conf/start.sh  /
-#RUN chmod +x /start.sh
+#nginx的配置
+ADD conf/nginx.conf  /etc/nginx/
+ADD conf/conf.d/*  /etc/nginx/conf.d/
 
 #开发端口 
 EXPOSE 80 9000
 
-#配置启动脚本.todo:无法执行这个。很奇怪。
 
-WORKDIR /usr/sbin
-
-#ENTRYPOINT ["php-fpm"]
-
-CMD ["nginx"]
