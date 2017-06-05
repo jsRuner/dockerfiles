@@ -15,7 +15,7 @@ USER root
 RUN yum  install -y epel-release
 RUN rpm -ivh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 RUN yum install -y --enablerepo=remi --enablerepo=remi-php56 php php-fpm php-opcache php-devel php-mbstring \
-php-mcrypt php-mysqlnd php-pdo php-mysqli php-phpunit-PHPUnit php-pecl-xdebug php-pecl-xhprof php-gd php-redis php-memcache
+php-mcrypt php-mysqlnd php-pdo php-mysqli php-phpunit-PHPUnit php-pecl-xdebug php-pecl-xhprof php-gd php-redis php-memcache php-amqp
 
 
 #安装 composer

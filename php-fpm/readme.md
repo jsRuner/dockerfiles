@@ -30,3 +30,32 @@ docker run --name php-fpm-56-1 --link=mysql --link=yxy-redis -p 80:80 -it -v /Us
 2017-05-31 13:54:35
 修正date日期
 修正php.ini的错误显示问题。
+
+2017-05-31 19:29:50
+
+重新产生php7镜像。
+docker run --name php-fpm-7-1 --link=mysql --link=yxy-redis -p 80:80 -it -v /Users/ft521/Documents/study/项目/docker/www:/www -d hiphp-php-fpm-7:1.0
+
+2017-06-05 13:16:20
+
+增加php的消息队列扩展。
+
+$ docker run --name php-fpm-56-2 --link=mysql --link=rabbitmq  --link=yxy-redis -p 80:80 -it -v /Users/ft521/Documents/study/项目/docker/www:/www -d hiphp-php-fpm-56:2.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
