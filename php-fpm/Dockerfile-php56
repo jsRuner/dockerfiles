@@ -36,6 +36,9 @@ ADD conf/www.conf /etc/php-fpm.d/
 ADD conf/nginx.conf  /etc/nginx/
 ADD conf/conf.d/*  /etc/nginx/conf.d/
 
+#php的日志需要读写权限
+RUN chmod 777 /var/log/php-fpm/www-error.log
+
 #开发端口 
 EXPOSE 80 9000
 
