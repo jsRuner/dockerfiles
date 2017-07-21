@@ -18,9 +18,6 @@ RUN yum install -y http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 #安装nginx
 RUN yum install -y nginx
 
-RUN yum install -y gcc
-RUN yum install -y cmake
-
 
 RUN rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
 
@@ -33,25 +30,7 @@ php70w-mcrypt php70w-mysqlnd php70w-pdo php70w-mysqli php70w-php70wunit-PHPUnit 
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer 
 
-
-
-RUN pecl install swoole
-
-
-#配置文件
-#php的配置文件。
-ADD conf/php.ini  /etc/
-#php-fpm的配置
-ADD conf/www.conf /etc/php-fpm.d/
-
-#nginx的配置
-ADD conf/nginx.conf  /etc/nginx/
-#站点的配置
-ADD conf/conf.d/*  /etc/nginx/conf.d/
-
-
-
 #开发端口 
-EXPOSE 80 9000 443 9501 9502 9503
+EXPOSE 80 9000
 
 
