@@ -44,6 +44,10 @@ $ docker run --name php-fpm-56-2 --link=mysql --link=rabbitmq  --link=yxy-redis 
 
 
 
+#阿里云dockerfile 增加swoole
+docker run --name php-swoole --link=wwf-mysql   -p 80:80 -p 443:443 -p 9501:9501 -p 9502:9502 -it -v /www:/www   -d php-swoole:v2
+
+
 
 
 
