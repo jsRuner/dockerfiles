@@ -1,0 +1,32 @@
+version: "3"
+services:
+    db:
+     image: mysql:latest
+     volumes:
+       - ./db_data:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: somewordpress
+       MYSQL_DATABASE: wordpress
+       MYSQL_USER: wordpress
+       MYSQL_PASSWORD: wordpress
+
+    
+    php:
+     volumes:
+       - ./web:/www/web
+     depends_on:
+       - db
+     build: ./php-fpm
+     #image: daocloud.io/library/php:7.1.4-fpm-alpine
+     restart: always
+     
+
+    nginx:
+     depends_on:
+       - php
+     build: ./nginx
+     #image: daocloud.io/library/nginx:1.13.0-alpine
+     ports:
+       - "8090:80"
+     restart: always

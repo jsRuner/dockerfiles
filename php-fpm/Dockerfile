@@ -6,41 +6,36 @@ MAINTAINER 吴文付 <hi_php@163.com>
 RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
   && echo 'Asia/Shanghai' >/etc/timezone
 
+
+
 #更新源. 安装php7
 USER root
-RUN yum -y install gcc automake autoconf libtool make
 
 
-#备份
-RUN mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
-
-RUN curl -O http://mirrors.163.com/.help/CentOS7-Base-163.repo 
-RUN mv CentOS7-Base-163.repo /etc/yum.repos.d/
-RUN yum clean all
-RUN yum makecache
-
-#安装第三方的扩展库
 RUN yum  install -y epel-release
-RUN rpm --nosignature -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
-RUN rpm --nosignature -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+RUN yum install -y http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+
+#安装nginx
+RUN yum install -y nginx
+RUN yum install -y gcc
+RUN yum install -y cmake
 
 
-RUN yum install -y php70w php70w-opcache php70w-devel php70w-mbstring \
-php70w-mcrypt php70w-mysqlnd php70w-pdo php70w-mysqli php70w-php70wunit-PHPUnit php70w-pecl-xdebug \ php70w-pecl-xhprof php70w-gd php70w-pecl-redis php70w-pecl-memcache php70w-pecl-amqp
 
+RUN rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
+
+
+RUN yum install -y php70w php70w-devel php70w-mbstring \
+php70w-mcrypt php70w-mysqlnd php70w-pdo php70w-mysqli
 
 #安装 composer
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-RUN php -r "if (hash_file('SHA384', 'composer-setup.php') === '669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742ab2e1c88d40d5be660b410') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-RUN php composer-setup.php
-RUN php -r "unlink('composer-setup.php');"
+RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer 
-#中国镜像
-RUN composer config -g repo.packagist composer https://packagist.phpcomposer.com
 
-#安装swoole
+
 RUN pecl install swoole
 
+#开发端口 
+EXPOSE 80 9000 9501 9502 9503
 
-#配置文件 增加swoole.so的开启
-RUN  echo extension=swoole.so >> /etc/php.ini
+

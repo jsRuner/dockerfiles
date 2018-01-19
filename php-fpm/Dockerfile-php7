@@ -26,7 +26,10 @@ RUN rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm
 
 
 RUN yum install -y php70w php70w-fpm php70w-opcache php70w-devel php70w-mbstring \
-php70w-mcrypt php70w-mysqlnd php70w-pdo php70w-mysqli php70w-php70wunit-PHPUnit php70w-pecl-xdebug \ php70w-pecl-xhprof php70w-gd php70w-pecl-redis php70w-pecl-memcache php70w-pecl-amqp
+php70w-mcrypt php70w-mysqlnd php70w-pdo php70w-mysqli php70w-php70wunit-PHPUnit php70w-pecl-xdebug \ php70w-pecl-xhprof php70w-gd php70w-pecl-redis php70w-pecl-memcache
+
+
+RUN yum install -y php70-php-pecl-amqp.x86_64
 
 
 #安装 composer

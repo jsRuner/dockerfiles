@@ -1,0 +1,51 @@
+
+构建个php 项目
+
+nginx
+
+php
+
+mysql
+
+2018-01-19 22:32:17 执行成功。可以创建3个容器，同时停止和销毁这3个容器。
+
+
+
+
+现在需要编写dockfile
+
+nginx 文件放在nginx下。拷贝进去。
+
+修改配置，请求转发给 9001  php的容器
+
+php 容器 需要可以链接 mysql 容器。以可以操作数据库。
+
+mysql 应该需要可以被外部访问。端口设置为 3307  以可以导入数据库。
+
+db
+php
+nginx
+
+拷贝一个配置文件。
+docker cp 0b288c7c53c0:/etc/nginx/nginx.conf /Users/ft521/Documents/work/insigmaunited/docker/testcompose/nginx.conf
+
+
+php的环境没配置好。
+
+2018-01-20 00:07:35 php环境配置好了
+
+但是现在出现的问题，php容器没有文件的路径，导致无法解析文件。
+
+需要挂载磁盘才行。
+
+web目录 挂着到指定目录下。
+
+磁盘挂着了，但是为空。
+
+
+2018-01-20 00:28:51
+
+成功挂载了实现 nginx php-fpm 打通。
+
+
+
